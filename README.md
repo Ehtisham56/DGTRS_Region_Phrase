@@ -17,32 +17,47 @@ In addition to global image-caption contrastive learning, this project aligns im
 
 ```text
 .
-|- config.py
-|- dataset_loader.py
-|- train.py
-|- train_vram_safe.py
-|- eval.py
-|- run_demo.py
-|- loss/
-|  |- contrastive_loss.py
-|- model/
-|  |- dgtrs_clip.py
-|  |- dgtrs_longclip.py
-|  |- longclip.py
-|- dataset/
-|  |- train/
-|  |  |- ret2.csv
-|  |- test/
-|     |- rsitmd_test.csv
-|     |- rsitmd_val.csv
-|     |- rsicd_test.csv
-|     |- rsicd_val.csv
-|- img/
+|-- README.md
+|-- requirements.txt
+|-- config.py
+|-- dataset_loader.py
+|-- eval.py
+|-- evaluate_models.ipynb
+|-- run_demo.py
+|-- train.py
+|-- train_vram_safe.py
+|-- loss/
+|   |-- __init__.py
+|   |-- contrastive_loss.py
+|-- model/
+|   |-- __init__.py
+|   |-- bpe_simple_vocab_16e6.txt
+|   |-- dgtrs_clip.py
+|   |-- dgtrs_longclip.py
+|   |-- image_encoder.py
+|   |-- longclip.py
+|   |-- model_longclip.py
+|   |-- projection_head.py
+|   |-- simple_tokenizer.py
+|   |-- text_encoder.py
+|-- dataset/
+|   |-- train/
+|   |   |-- ret2.csv
+|   |-- test/
+|   |   |-- rsicd_test.csv
+|   |   |-- rsicd_val.csv
+|   |   |-- rsitmd_test.csv
+|   |   |-- rsitmd_val.csv
+|-- UCM_captions/
+|   |-- dataset.json
+|   |-- ucm_test.csv
+|-- img/
+|   |-- demo.jpg
 ```
 
 ## Requirements
 
-Install dependencies from requirements.txt:
+Install dependencies from `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
@@ -53,6 +68,7 @@ Main dependencies:
 - torch >= 2.1
 - torchvision >= 0.16
 - transformers >= 4.37
+- matplotlib >= 3.8
 - pillow, numpy, ftfy, regex, tqdm
 
 ## Dataset Setup
@@ -71,10 +87,10 @@ baseballfield_452.tif,There is a baseball field beside the green amusement park.
 
 Image path behavior:
 
-- Primary image root is images (config default).
-- Fallback root includes img by default.
+- Primary image root is `images` (config default).
+- Fallback root includes `img` by default.
 
-If your files are in img, training will still work because img is searched as a fallback root.
+If your files are in `img`, training will still work because `img` is searched as a fallback root.
 
 ## Training
 
@@ -119,11 +135,11 @@ python train_vram_safe.py \
 
 Windows PowerShell line continuation uses backtick (`) instead of backslash.
 
-Outputs are saved under checkpoints/<run_name>_<timestamp>, including:
+Outputs are saved under `checkpoints/<run_name>_<timestamp>`, including:
 
-- last_model.pt
-- best_model.pt
-- config.json
+- `last_model.pt`
+- `best_model.pt`
+- `config.json`
 
 ## Evaluation
 
@@ -156,14 +172,14 @@ python run_demo.py
 
 Before running:
 
-- Place a trained checkpoint at checkpoints/best_model.pt, or update the path in run_demo.py.
-- Place your demo image at img/demo.jpg, or update the image path in run_demo.py.
+- Place a trained checkpoint at `checkpoints/best_model.pt`, or update the path in `run_demo.py`.
+- Place your demo image at `img/demo.jpg`, or update the image path in `run_demo.py`.
 
 ## Notes
 
-- model_family longclip_approx requires tokenization_mode longclip and normalization_mode clip.
-- If val_csv is not provided during training, train.py creates a validation split from train_csv using val_split.
-- For reproducibility, set seed and keep dataset paths fixed across runs.
+- `model_family longclip_approx` requires `tokenization_mode longclip` and `normalization_mode clip`.
+- If `val_csv` is not provided during training, `train.py` creates a validation split from `train_csv` using `val_split`.
+- For reproducibility, set `seed` and keep dataset paths fixed across runs.
 
 ## Acknowledgments
 
